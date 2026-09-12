@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>飛騨SNS勉強会｜リール台本メーカー（20秒）</title>
-<meta name="description" content="型を選んでページのURLを貼るだけ。ChatGPTに1回貼れば、20秒・10カットの台本が出ます。">
+<meta name="description" content="紹介のしかたを5つから選んで、3つの空欄をうめるだけ。ChatGPTに1回貼れば20秒の台本が出ます。">
 <style>
 :root{--ink:#1d2320;--sub:#5c6560;--line:#dfe3e0;--bg:#f6f5f1;--accent:#2f6b4f;--accent2:#e8f0ea}
 *{box-sizing:border-box}
@@ -19,11 +19,9 @@ h2 .n{background:var(--accent);color:#fff;width:22px;height:22px;border-radius:5
 p.lead{margin:4px 0 12px;font-size:13px;color:var(--sub)}
 .banner{background:var(--accent2);border:1px solid #cfe0d5;border-radius:12px;padding:10px 12px;font-size:13px;margin:0 0 12px}
 .banner b{color:var(--accent)}
-.group{margin-bottom:12px}
-.group h3{font-size:12.5px;color:var(--sub);margin:0 0 6px;font-weight:700}
-.types{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.type{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:10px;text-align:left;font-size:13.5px;font-weight:700;color:var(--ink);cursor:pointer;line-height:1.45}
-.type small{display:block;font-weight:400;font-size:11.5px;color:var(--sub);margin-top:3px}
+.types{display:grid;gap:8px}
+.type{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:12px;text-align:left;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;line-height:1.45;width:100%}
+.type small{display:block;font-weight:400;font-size:12.5px;color:var(--sub);margin-top:3px}
 .type.on{border-color:var(--accent);background:var(--accent2)}
 label{display:block;font-size:13px;font-weight:700;margin:12px 0 4px}
 label span{font-weight:400;color:var(--sub);font-size:12px;display:block}
@@ -33,8 +31,8 @@ button.copy:active{opacity:.85}
 button.copy.done{background:#7a8b80}
 button.ghost{width:100%;padding:11px;font-size:13.5px;color:var(--accent);background:#fff;border:1.5px solid var(--accent);border-radius:12px;margin-top:8px;cursor:pointer}
 summary{font-size:12.5px;color:var(--sub);cursor:pointer}
-details#exBox{margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:#fafaf8}
-details#exBox summary{font-weight:700;color:var(--accent)}
+details{margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:#fafaf8}
+details summary{font-weight:700;color:var(--accent)}
 pre{white-space:pre-wrap;word-break:break-word;background:#fafaf8;border:1px solid var(--line);border-radius:10px;padding:11px;font-size:12px;line-height:1.65;margin:8px 0 0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 ol.steps{margin:0;padding-left:1.2em;font-size:14px}
 ol.steps li{margin-bottom:4px}
@@ -48,25 +46,29 @@ footer{text-align:center;font-size:11.5px;color:var(--sub);padding:14px 0 30px}
 <body>
 <header>
 <h1>飛騨SNS勉強会｜リール台本メーカー</h1>
-<p>型を選んで、ページのURLか空欄を埋めるだけ。ChatGPTに1回貼れば台本が出ます。</p>
+<p>紹介のしかたを5つから選んで、空欄を3つうめるだけ。ChatGPTに1回貼れば台本が出ます。</p>
 </header>
 <main>
 
-<div class="banner">この会で作る動画は <b>全部20秒</b> です。<b>1カット2秒 × 10カット</b>。ChatGPTには長さを聞かれません。</div>
+<div class="banner">この会で作る動画は <b>全部20秒</b> です。<b>1カット2秒 × 10カット</b>。長さは決まっているので、ChatGPTには聞かれません。</div>
 
 <section>
-<h2><span class="n">1</span>型を選ぶ</h2>
-<p class="lead">自分の商売に近いところから選んでください。型ごとに「うまくいっている動画の流れ」がお手本として入っています。あとから変えられます。</p>
-<div id="typeList"></div>
+<h2><span class="n">1</span>紹介のしかたを選ぶ</h2>
+<p class="lead">どの商売でも使える5つです。迷ったら、いま手元にある材料で選んでください。あとから変えられます。</p>
+<div id="typeList" class="types"></div>
 </section>
 
 <section id="formSec" class="hide">
-<h2><span class="n">2</span>空欄をうめる</h2>
+<h2><span class="n">2</span>空欄を3つうめる</h2>
 <p class="lead" id="formLead"></p>
 <div id="cutPlan" class="cuts"></div>
 <details id="exBox"><summary>この型のお手本を見る（うまくいっている動画の流れ）</summary><pre id="exPre"></pre></details>
-<label>お店・商品のページ（あれば貼る）<span>ホームページ、ネットショップ、ふるさと納税、食べログ、Googleマップ、インスタのプロフィール。どれか1つでOK</span><textarea id="f_url" placeholder="https://"></textarea></label>
+<label>① なにを紹介しますか<span>1つだけ。商品・料理・作業・場所、なんでも</span><textarea id="f_what" placeholder=""></textarea></label>
 <div id="fields"></div>
+<label>③ 最後に出す名前と行き先<span>店名や商品名と、買える場所・来られる場所・頼み方</span><textarea id="f_goal" placeholder="例：〇〇（店名）／飛騨市〇〇／9〜17時　または　通販・DMで注文"></textarea></label>
+<details><summary>お店・商品のページがあれば貼る（任意）</summary>
+<p class="note" style="margin-top:4px">ホームページ、ネットショップ、ふるさと納税、食べログ、Googleマップ、インスタのプロフィール。どれか1つ。貼ると店名や営業時間を打ち込まずに済みます。</p>
+<textarea id="f_url" placeholder="https://"></textarea></details>
 <button class="copy" id="copyBtn">この内容でコピー</button>
 <button class="ghost" id="peekBtn">コピーされる文を見る</button>
 <pre id="preview" class="hide"></pre>
@@ -77,12 +79,11 @@ footer{text-align:center;font-size:11.5px;color:var(--sub);padding:14px 0 30px}
 <h2><span class="n">3</span>貼ったあと</h2>
 <ol class="steps">
 <li>ChatGPTを開いて貼る（1回だけ）</li>
-<li>冒頭テロップ3案と、10カット分の撮るもの・テロップが出る（お手本と同じ流れで返ってきます）</li>
+<li>冒頭テロップ3案と、10カット分の撮るもの・テロップが出る</li>
 <li>3案を隣の人に3秒だけ見せて、伝わるものを選ぶ</li>
 </ol>
 <p class="note">素材が足りないカットは「【撮ってください】〇〇」と返ってきます。そこが今日撮るものです。</p>
 <p class="note">口コミを集める必要はありません。今日あったことと、お客さんによく聞かれることだけで作れます。</p>
-<p class="note">ページのURLを貼っておくと、店名・商品名・営業時間・値段をChatGPTが読み取って入れてくれます。打ち込む手間が減ります。</p>
 </section>
 
 <footer>飛騨SNS勉強会 2回目コース／SAKIYOMI</footer>
@@ -90,127 +91,87 @@ footer{text-align:center;font-size:11.5px;color:var(--sub);padding:14px 0 30px}
 <script>
 /* s: [見せる内容, カット数] 合計は必ず10カット（=20秒） */
 var TYPES=[
- {g:"作ったもの・産品を売る／頼んでもらう",id:"juchu",t:"頼めると分かる",d:"作業工程の最後に依頼導線",
-  f:[["work","今回の制作物","例：住宅のロフト階段"],["fear","頼む前に不安に思われること","例：高そう・相談していいか分からない"],["space","完成した物が置かれた場所","例：施主宅のリビング"],["order","頼めることと頼み方","例：店舗・住宅の手摺／DMまたはHP"]],
-  s:[["冒頭：施主目線の一言",1],["作業工程（今まで通り）",4],["完成が置かれた空間",3],["不安を消す一言",1],["頼めることと頼み方",1]],
-  ex:["施主宅の現場（引き）｜このテーブル、1枚板です", "板を切る手元", "かんなをかける寄り", "削りくずが落ちる", "オイルを塗る", "施主宅に運び込む", "脚を取り付ける", "完成したテーブルが置かれたダイニング（引き）", "家族が座る｜相談だけでもできます", "ロゴと連絡先｜店舗・住宅の家具、作ります／DM"]},
- {g:"作ったもの・産品を売る／頼んでもらう",id:"ec",t:"商品を1つ売る",d:"通販・ふるさと納税・店頭",
-  f:[["item","商品名","例：純生 芋こんにゃく"],["nayami","お客さんの悩み・買う前の迷い","例：こんにゃくは臭みが苦手"],["good","よく言われる良い点","例：臭みがない・刺身で食べられる"],["buy","買える場所","例：楽天／ふるさと納税／店頭"]],
-  s:[["冒頭：悩みか、驚く映像",1],["商品名は伏せたまま実演",3],["良い点を畳みかける",3],["もう1つの良さ",2],["買える場所",1]],
-  ex:["商品を手で掴んで揺らす（パッケージは映さない）", "指で押してへこませる", "押し返す様子を寄りで", "包丁で切る", "切り口の断面｜見た目より水分があります", "箸で持ち上げる", "皿に並べる", "口に運ぶ", "皿に盛った全体｜そのまま食べられます", "パッケージを手に持つ｜〇〇（商品名）／通販・店頭"]},
- {g:"作ったもの・産品を売る／頼んでもらう",id:"seisan",t:"作っている人",d:"畑・工房の今日の作業",
-  f:[["work","今日やった作業","例：トマトの収穫"],["who","作っている人・年数","例：長田／30年"],["point","こだわりを1つ","例：完熟してから採る"],["buy","買える場所","例：産直市場すくな／丹生川"]],
-  s:[["冒頭：今日の作業を言う",1],["作業の手元",3],["どんな人が作っているか",3],["出来上がったもの",2],["どこで買えるか",1]],
-  ex:["畑に立つ引き｜今日は〇〇の収穫です", "実をもぐ手元", "かごに入れる", "かごが一杯になる", "立ち上がって汗をぬぐう", "ハウスの全体", "使い込んだ道具を寄りで｜30年作っています", "洗って並べた実を寄りで", "袋詰めしたもの｜明日の朝に出します", "出荷先の看板｜〇〇（店名）／〇〇（地名）"]},
- {g:"作ったもの・産品を売る／頼んでもらう",id:"kurabe2",t:"くらべる",d:"2つ並べて違いを見せる",
-  f:[["a","Aの内容","例：木質ペレット"],["b","Bの内容","例：灯油"],["diff","違いを1つ（数字があれば）","例：1袋で〇時間／灯油は〇時間"],["buy","商品名と買い方","例：飛騨の木質ペレット／配達／電話・DM"]],
-  s:[["冒頭：AとBを宣言",1],["A（4カット）",4],["B（Aとまったく同じ順番・同じ画角で4カット）",4],["結果と買い方",1]],
-  ex:["2本を並べて置く｜切れ味、どれくらい違う？", "Aを手に取る", "トマトに刃を当てる", "スッと切れる", "切り口を寄りで", "Bを手に取る（2と同じ画角）", "トマトに刃を当てる（3と同じ画角）", "つぶれる（4と同じ画角）", "切り口を寄りで（5と同じ画角）", "商品と買い方｜〇〇（商品名）／店頭・通販"]},
+ {id:"tsukuru",t:"できるまで",d:"作っているところを最後まで見せる",
+  use:"作る仕事、育てる仕事、仕込みがある店",
+  wh:"例：木のテーブル／今日の収穫／朝の仕込み",
+  q:["work","② どんな作業を見せますか","例：板を切って、削って、組み立てる"],
+  s:[["冒頭：これから何ができるかを言う",1],["作業を手元の寄りで",4],["形が変わっていくところ",2],["完成したもの",2],["買い方・頼み方",1]],
+  ex:["作業場の全体（引き）｜このテーブル、1枚板です","板を切る手元","かんなをかける寄り","削りくずが落ちる","オイルを塗る","塗る前と後の色の違い","脚を取り付ける","完成したテーブル（引き）","置かれた部屋で人が座る｜相談だけでもできます","ロゴと連絡先｜家具、作ります／DM"]},
 
- {g:"お店・直売所に来てもらう",id:"nyuka",t:"今日の入荷",d:"今日あるもの・今日で終わるもの",
-  f:[["item","今日の品もの","例：丹生川小の3・4年生が作ったトマト"],["who","作った人・産地","例：島垣内さん／丹生川"],["limit","数や期限","例：残り10袋／今日まで"],["shop","店名・営業時間・場所","例：産直市場すくな／9〜17時／丹生川"]],
+ {id:"kyou",t:"今あるもの",d:"今日・今週だけのものを見せる",
+  use:"店、直売所、施設、旬のあるもの",
+  wh:"例：今日入荷したトマト／今週末のイベント",
+  q:["limit","② いつまで、どれだけありますか","例：残り10袋／今日まで"],
   s:[["冒頭：品もの＋今しかない理由",1],["現物・売り場を寄りで",3],["作った人・産地が分かる絵",3],["数・値段・期限",2],["店名と場所",1]],
-  ex:["台に積まれた箱を引きで｜今日入った〇〇", "箱から1つ手に取る", "回して形を見せる", "皮をむいた中身を寄りで", "生産者名の札｜〇〇さんが作りました", "畑か生産者の顔の写真", "産地が分かる看板", "台に残った数を上から｜残り8箱", "値札｜1箱1,200円・今日まで", "店の外観と看板｜〇〇（店名）／〇〇（地名）／9〜17時"]},
- {g:"お店・直売所に来てもらう",id:"mayoi",t:"迷いつぶし",d:"「入りにくい」「高そう」を消す",
-  f:[["fear","よく言われる不安","例：子ども連れだと入りにくい"],["fact","それを消す事実","例：座敷が2部屋ある"],["proof","それが分かる映像","例：座敷席と通路の広さ"],["shop","店名・場所・時間","例：〇〇／神岡町／11〜14時"]],
-  s:[["冒頭：不安をそのまま言う",1],["その不安が出る場面を映す",3],["「でも実は」＋事実",3],["もう1つの安心材料",2],["店名と場所",1]],
-  ex:["入口の前で止まる足元｜子連れは入りにくい？", "ドアの幅を引きで", "通路をベビーカーで通る", "中の様子をぐるっと", "座敷席の全体｜座敷が2部屋あります", "子どもが座敷に座る", "子ども用の椅子と取り皿", "おむつ替え台", "空いている時間の店内｜11時台はすいてます", "外観と看板｜〇〇（店名）／〇〇（地名）／11〜14時"]},
- {g:"お店・直売所に来てもらう",id:"uragawa",t:"裏側",d:"仕込み・準備・作業",
-  f:[["when","いつ何の作業","例：朝4時からの仕込み"],["why","なぜそうしているか","例：その日のうちに使い切るため"],["result","その結果どうなるか","例：昼に並ぶ総菜になる"],["shop","店名・買える場所・時間","例：〇〇／店頭のみ／11時から"]],
-  s:[["冒頭：時刻＋現場",1],["手元の作業を寄りで",3],["なぜそうするかが分かる絵",3],["出来上がり",2],["どこで買えるか",1]],
-  ex:["暗い厨房の時計を寄りで｜朝4時", "鍋に火を入れる手元", "野菜を刻む手元", "寸胴をかき混ぜる", "味を見る横顔", "空になった冷蔵庫の棚｜その日に使い切るから", "バットに移す", "昼の店頭に並んだ総菜", "客が手に取る", "店の外観と看板｜〇〇（店名）／店頭のみ／11時から"]},
+  ex:["台に積まれた箱を引きで｜今日入った〇〇","箱から1つ手に取る","回して形を見せる","切った中身を寄りで","生産者名の札｜〇〇さんが作りました","畑か作り手の写真","産地が分かる看板","台に残った数を上から｜残り8箱","値札｜1箱1,200円・今日まで","店の外観と看板｜〇〇（店名）／9〜17時"]},
 
- {g:"観光・施設に来てもらう",id:"gokai",t:"誤解ひっくり返し",d:"「地味そう」と思われている",
-  f:[["myth","思われがちなこと","例：子どもには難しそう"],["real","実際どうか","例：手で触れる展示がある"],["see","いちばんの見どころ","例：光る球の下を覗ける"],["info","正式名称・料金・営業時間","例：ひだ宇宙科学館カミオカラボ／無料／9〜17時"]],
-  s:[["冒頭：誤解をそのまま言う",1],["実際の映像で裏切る",3],["見どころを見せる",3],["知ると得する事実",2],["施設名と場所",1]],
-  ex:["静かな展示室の入口｜難しそうに見えますよね", "触れる展示に手を伸ばす", "子どもがボタンを押す", "装置が光って反応する", "いちばんの見どころを引きで", "その下を覗き込む", "覗いた先の内部", "解説パネルを寄りで｜ここでしか見られません", "受付の料金表｜入館無料", "施設の外観と看板｜〇〇（施設名）／9〜17時"]},
- {g:"観光・施設に来てもらう",id:"suji",t:"数字先出し",d:"大きさ・深さ・個数で止める",
-  f:[["num","数字","例：地下1000m"],["what","何の数字か","例：この実験装置がある深さ"],["scale","大きさが分かる比較","例：横に人が立つと"],["info","正式名称・どこで見られるか・料金","例：ひだ宇宙科学館カミオカラボ／展示室／無料"]],
-  s:[["冒頭：数字を出す",1],["圧のある絵",3],["比較できるものを入れる",3],["何のためのものか",2],["どこで見られるか",1]],
-  ex:["建物を見上げる｜高さ25m", "入口を入る", "奥へ進む", "装置の全体を引きで", "装置を見上げる", "横に人が立つ（大きさが分かる）", "壁面を寄りで", "解説パネル｜何のための装置か", "展示室の全体｜ここで見られます", "施設の外観と看板｜〇〇（施設名）／入館無料"]},
- {g:"観光・施設に来てもらう",id:"minogashi",t:"見落とし見どころ",d:"「気づかなかった」と言われる",
-  f:[["spot","見落とされる場所","例：模型の真下"],["how","どう見ると良いか","例：しゃがんで見上げる"],["why","そこが面白い理由","例：内側の構造が見える"],["info","正式名称・料金","例：ひだ宇宙科学館カミオカラボ／無料"]],
-  s:[["冒頭：見落としを宣言",1],["普通に通り過ぎる景色",2],["角度を変えた景色",4],["なぜそうなっているか",2],["施設名と場所",1]],
-  ex:["人が素通りする通路｜9割が見落とす場所", "普通に歩いて通り過ぎる", "展示の正面（よくある見え方）", "しゃがむ足元", "見上げた角度", "内側の構造が見える", "さらに寄る", "解説パネル｜なぜこの構造か", "立ち上がって全体", "施設の外観と看板｜〇〇（施設名）／入館無料"]},
- {g:"観光・施設に来てもらう",id:"sanjuppun",t:"30分で回れる",d:"「時間がかかりそう」を消す",
-  f:[["time","所要時間","例：30分"],["route","順路3つ","例：入口→展示室→外の広場"],["peak","途中の山場","例：展示室の映像"],["info","正式名称・駐車場・料金・営業時間","例：〇〇／無料駐車場あり／入館無料／9〜17時"]],
-  s:[["冒頭：所要時間",1],["入口→順路を早送りで",3],["山場",3],["駐車場・料金・時間",2],["施設名と場所",1]],
-  ex:["駐車場に車を停める｜30分で回れます", "入口を入る", "順路の矢印", "展示室を早歩きで", "山場の展示を引きで", "山場を寄りで", "見ている人の反応", "出口の時計｜ここまで28分", "駐車場の看板｜無料・30台", "施設の外観と看板｜〇〇（施設名）／入館無料／9〜17時"]},
- {g:"観光・施設に来てもらう",id:"imadake",t:"今だけ",d:"期限があるもの",
-  f:[["limit","いつまで","例：今週末まで"],["what","何が特別か","例：この時期だけの企画展"],["scene","見せる現物","例：展示中の実物"],["info","正式名称・日時・料金・場所","例：〇〇／9月20日まで／無料"]],
-  s:[["冒頭：期限を言う",1],["現物を寄りで",3],["何が特別なのかが分かる絵",3],["日時・料金・場所",2],["施設名",1]],
-  ex:["会期の看板を寄りで｜今月末まで", "展示の現物を引きで", "現物を寄りで", "別の角度から", "借りてきた資料の札", "普段は見られない部分", "会場の全体", "入口の料金表｜無料", "開館時間の掲示｜9〜17時", "施設の外観と看板｜〇〇（施設名）"]},
+ {id:"shiranai",t:"知られてない",d:"知らない人が多いことを1つ教える",
+  use:"施設、産品、こだわり、豆知識",
+  wh:"例：展示のあの装置／この野菜の育ち方",
+  q:["fact","② 知らない人が多いことを1つ","例：しゃがんで見上げると内側が見える"],
+  s:[["冒頭：知らない人が多い、と言う",1],["普通に見たときの景色",2],["知られてない部分",4],["なぜそうなっているか",2],["どこで見られる・買えるか",1]],
+  ex:["建物の外観を引きで｜通り過ぎる人が多いです","正面から見た入口","普通に歩くと見える範囲","しゃがんで見上げる（同じ場所）","見上げた先の梁を寄りで","梁に残る手斧のあと","柱の継ぎ目を寄りで","ゆっくり引いて全体を見せる","説明の札を寄りで｜〇〇年に建てられました","外観と看板｜〇〇（施設名）／見学無料"]},
 
- {g:"宿（今回は該当者なし）",id:"ichinichi",t:"1日追体験",d:"到着から翌朝まで",
-  f:[["a","チェックイン〜夕方の出来事","例：15時着、部屋から雪山"],["b","夜の出来事","例：18時から夕食、地の魚"],["c","朝の出来事","例：朝6時の朝風呂"],["name","宿名・予約方法","例：〇〇／じゃらん・電話"]],
-  s:[["冒頭：時刻を出す",1],["到着〜夕方",3],["夜",3],["朝",2],["宿名と予約先",1]],
-  ex:["玄関の時計を寄りで｜15:00", "部屋の窓から山", "部屋でお茶を入れる", "夕方の露天", "夕食の皿を並べる｜18:00", "地の魚のアップ", "部屋の明かりを消す", "朝の窓｜翌6:00", "朝風呂の湯気", "宿の外観｜〇〇（宿名）／予約は電話・じゃらん"]},
- {g:"宿（今回は該当者なし）",id:"itten",t:"ここだけの一点",d:"よそにない1つを先に見せる",
-  f:[["point","その一点","例：部屋から雪山が正面に見える"],["why","なぜそれがあるか","例：この向きに建てた宿だから"],["plus","もう1つの良さ","例：夕食は地の魚だけ"],["name","宿名・予約方法","例：〇〇／電話"]],
-  s:[["冒頭：強い絵をいきなり",1],["寄る・動かす",3],["なぜそれがあるか",3],["もう1つの良さ",2],["宿名と予約先",1]],
-  ex:["窓を開けた瞬間の景色", "窓枠ごしに引きで", "ベッドに寝転んだ目線", "窓に近づく", "建物の外観（窓の向きが分かる）", "山の方角を指す｜正面に建てた宿です", "別の部屋の同じ窓", "夕食の地の魚", "朝の同じ窓", "宿の外観｜〇〇（宿名）／予約は電話"]},
- {g:"宿（今回は該当者なし）",id:"kurabe",t:"比べる",d:"AとB、どっちが自分向きか",
-  f:[["a","Aの内容","例：冬の露天"],["b","Bの内容","例：夏の露天"],["diff","違いを1つ","例：冬は雪見、夏は川音"],["who","どっちが誰向けか・宿名","例：寒がりな人は夏／〇〇"]],
-  s:[["冒頭：AとBを宣言",1],["A（4カット）",4],["B（Aとまったく同じ順番で4カット）",4],["どっちが誰向けか＋宿名",1]],
-  ex:["画面に2枚並べる｜冬と夏、どっち？", "冬の露天（引き）", "冬の湯気", "冬の雪", "冬に入っている足元", "夏の露天（2と同じ画角）", "夏の緑（3と同じ画角）", "夏の川（4と同じ画角）", "夏に入っている足元（5と同じ画角）", "宿の外観｜寒がりな人は夏／〇〇（宿名）"]}
+ {id:"kuraberu",t:"くらべる",d:"2つ並べて違いを見せる",
+  use:"他と違う点がある商品、前と後、季節ちがい",
+  wh:"例：うちの〇〇と、よくある〇〇",
+  q:["ab","② 何と何をくらべますか（違いも1つ）","例：AとB／Aは切り口がつぶれない"],
+  s:[["冒頭：AとBを宣言",1],["A（4カット）",4],["B（Aとまったく同じ順番・同じ画角で4カット）",4],["結果と買い方",1]],
+  ex:["2本を並べて置く｜切れ味、どれくらい違う？","Aを手に取る","トマトに刃を当てる","スッと切れる","切り口を寄りで","Bを手に取る（2と同じ画角）","トマトに刃を当てる（3と同じ画角）","つぶれる（4と同じ画角）","切り口を寄りで（5と同じ画角）","商品と買い方｜〇〇（商品名）／店頭・通販"]},
+
+ {id:"konnahito",t:"こんな人に",d:"見てほしい人を名指しして、不安を消す",
+  use:"来てほしい店、頼んでほしい仕事、迷われやすいもの",
+  wh:"例：うちの座敷／オーダーの手すり",
+  q:["fear","② 見てほしい人と、その人の不安","例：子ども連れ／入りにくそう"],
+  s:[["冒頭：見てほしい人を名指し",1],["その人が気にしていること",3],["「でも実は」が分かる映像",4],["もう一押し",1],["名前と場所",1]],
+  ex:["入口の前で止まる足元｜子連れは入りにくい？","ドアの幅を引きで","通路をベビーカーで通る","中の様子をぐるっと","座敷席の全体｜座敷が2部屋あります","子どもが座敷に座る","子ども用の椅子と取り皿","おむつ替え台","空いている時間の店内｜11時台はすいてます","外観と看板｜〇〇（店名）／11〜14時"]}
 ];
 
-var SEC=2, TOTAL=10;
-
+var cur=null;
 function mmss(s){ return '0:'+(s<10?'0'+s:s); }
-
 function cutRows(t){
-  var rows=[], n=0;
+  var n=1,sec=0,rows=[];
   t.s.forEach(function(st){
-    var from=n+1, to=n+st[1];
-    var label = (from===to) ? ('カット'+from) : ('カット'+from+'〜'+to);
-    rows.push([label+'（'+mmss(n*SEC)+'〜'+mmss(to*SEC)+'）', st[0]]);
-    n=to;
+    var c=st[1], from=sec, to=sec+c*2;
+    rows.push(['カット'+(c>1?(n+'〜'+(n+c-1)):n)+'　（'+mmss(from)+'〜'+mmss(to)+'）', st[0]]);
+    n+=c; sec=to;
   });
   return rows;
 }
 
-var cur=null;
 var list=document.getElementById('typeList');
-var groups=[];
-TYPES.forEach(function(t){ if(groups.indexOf(t.g)<0) groups.push(t.g); });
-groups.forEach(function(g){
-  var wrap=document.createElement('div'); wrap.className='group';
-  wrap.innerHTML='<h3>'+g+'</h3>';
-  var grid=document.createElement('div'); grid.className='types';
-  TYPES.filter(function(t){return t.g===g;}).forEach(function(t){
-    var b=document.createElement('button'); b.className='type'; b.dataset.id=t.id;
-    b.innerHTML=t.t+'<small>'+t.d+'</small>';
-    b.addEventListener('click',function(){ select(t.id); });
-    grid.appendChild(b);
-  });
-  wrap.appendChild(grid); list.appendChild(wrap);
+TYPES.forEach(function(t){
+  var b=document.createElement('button');
+  b.className='type'; b.dataset.id=t.id;
+  b.innerHTML=t.t+'<small>'+t.d+'<br>向いている人：'+t.use+'</small>';
+  b.addEventListener('click',function(){ select(t.id); });
+  list.appendChild(b);
 });
 
 function select(id){
   cur=TYPES.filter(function(t){return t.id===id;})[0];
   document.querySelectorAll('.type').forEach(function(b){ b.classList.toggle('on', b.dataset.id===id); });
-  document.getElementById('formLead').textContent='「'+cur.t+'」で作ります。分かるところだけで大丈夫です。';
+  document.getElementById('formSec').classList.remove('hide');
+  document.getElementById('formLead').textContent='「'+cur.t+'」で作ります。'+cur.d+'。';
   var cp=document.getElementById('cutPlan');
   cp.innerHTML='<b>20秒のカット割（この型の場合）</b><br>'+cutRows(cur).map(function(r){
     return r[0]+'　'+r[1];
   }).join('<br>');
   document.getElementById('exPre').textContent=cur.ex.map(function(x,i){return (i+1)+' '+x;}).join('\n');
-  var f=document.getElementById('fields'); f.innerHTML='';
-  cur.f.forEach(function(fl){
-    var l=document.createElement('label');
-    l.innerHTML=fl[1]+'<span>'+fl[2]+'</span>';
-    var ta=document.createElement('textarea'); ta.id='f_'+fl[0]; ta.placeholder=fl[2].replace('例：','');
-    l.appendChild(ta); f.appendChild(l);
-  });
-  document.getElementById('formSec').classList.remove('hide');
+  document.getElementById('f_what').placeholder=cur.wh;
+  var box=document.getElementById('fields'); box.innerHTML='';
+  var l=document.createElement('label');
+  l.innerHTML=cur.q[1]+'<span>'+cur.q[2]+'</span>';
+  var ta=document.createElement('textarea'); ta.id='f_'+cur.q[0]; ta.placeholder=cur.q[2].replace('例：','');
+  l.appendChild(ta); box.appendChild(l);
   document.getElementById('preview').classList.add('hide');
   document.getElementById('formSec').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 function build(){
+  if(!cur) return '';
   var L=[];
-  L.push('あなたは飛騨の小さな事業者のインスタ担当です。次の「型」で、20秒のリール台本を作ってください。');
+  L.push('あなたは飛騨の小さな事業者のインスタ担当です。次の「型」で、リールの台本を作ってください。');
   L.push('質問はせず、いきなり台本を出してください。聞きたいことがあれば、台本を出したあとに1つだけ。');
   L.push('');
   L.push('【尺】20秒／1カット2秒／全10カット（固定。変えない。長さを聞き返さない）');
@@ -232,11 +193,11 @@ function build(){
     L.push('ページに書いていないことは足さないでください。');
     L.push('');
   }
+  function val(id){ var e=document.getElementById('f_'+id); var v=e?(e.value||'').trim():''; return v||'【要確認】'; }
   L.push('【私の情報】');
-  cur.f.forEach(function(fl){
-    var v=(document.getElementById('f_'+fl[0]).value||'').trim();
-    L.push(fl[1]+'：'+(v||'【要確認】'));
-  });
+  L.push('紹介するもの：'+val('what'));
+  L.push(cur.q[1].replace(/^②\s*/,'')+'：'+val(cur.q[0]));
+  L.push('最後に出す名前と行き先：'+val('goal'));
   L.push('');
   L.push('【出してほしいもの】');
   L.push('1 冒頭テロップ 3案（各13文字以内。①言い切る ②問いかける ③結果を先に出す）');
@@ -251,10 +212,10 @@ function build(){
   L.push('・情報が足りなくてカットが埋まらないときは、言葉で薄めずに「【撮ってください】〇〇」と書く。');
   L.push('・撮るものは現場で迷わない書き方にする（何を・どこから・寄りか引きか）。');
   L.push('・お手本の商品名・店名・地名・数字は絶対に使わない。お手本は順番とテロップの書き方だけをまねる。');
-  L.push('・店名、宿名、施設名、商品名、地名、人の名前は、私が書いた表記をそのまま使う。言い換えない、略さない。');
+  L.push('・店名、施設名、商品名、地名、人の名前は、私が書いた表記をそのまま使う。言い換えない、略さない。');
   L.push('・数字、値段、時間、日付、在庫は、私が書いたものだけを使う。書いていないものは作らない。');
   L.push('・【要確認】と書いた欄は勝手に埋めず、そのまま出して、最後に1つだけ質問する。');
-  L.push('・店名・宿名・施設名は、最後のカットまで画面に出さない。');
+  L.push('・店名・施設名は、最後のカットまで画面に出さない。');
   L.push('・説明や前置きは書かず、台本だけを出す。');
   return L.join('\n');
 }
