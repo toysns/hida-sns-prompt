@@ -24,10 +24,10 @@ p.lead{margin:4px 0 12px;font-size:13px;color:var(--sub)}
 .chip.on i{background:rgba(255,255,255,.28);color:#fff}
 .types{display:grid;gap:8px}
 .type{position:relative;border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:12px 12px 11px;text-align:left;color:var(--ink);cursor:pointer;width:100%;display:block}
-.type .hook{display:block;font-size:16.5px;font-weight:700;line-height:1.4;padding-right:62px}
+.type .hook{display:block;font-size:16.5px;font-weight:700;line-height:1.4}
 .type .meta{display:block;font-size:12.5px;color:var(--sub);margin-top:6px;font-weight:400;line-height:1.5}
 .type .meta b{color:var(--accent);font-weight:700}
-.type .badge{position:absolute;top:11px;right:11px;font-size:10.5px;font-weight:700;color:var(--sub);background:#f1f3f0;border-radius:999px;padding:2px 7px;white-space:nowrap}
+.type .badge{display:inline-block;font-size:10.5px;font-weight:700;color:var(--sub);background:#f1f3f0;border-radius:999px;padding:2px 8px;margin-bottom:6px;line-height:1.5}
 .type.on{border-color:var(--accent);background:var(--accent2)}
 .type.on .badge{background:#fff}
 .empty{font-size:13px;color:var(--sub);padding:8px 2px}
@@ -183,11 +183,11 @@ function cutRows(t){
 /* 言いたいことで絞り込む。g=グループid */
 var GROUPS=[
  {id:'all',  t:'ぜんぶ見る'},
- {id:'sugoi',t:'すごい・意外だと言いたい'},
- {id:'ima',  t:'今のこと・今だけを言いたい'},
- {id:'kane', t:'値段・数で言いたい'},
- {id:'hito', t:'人と作り方を見せたい'},
- {id:'basho',t:'場所・行き方を伝えたい'}
+ {id:'sugoi',t:'すごい・意外'},
+ {id:'ima',  t:'今だけ・今の様子'},
+ {id:'kane', t:'値段・数'},
+ {id:'hito', t:'人・作り方'},
+ {id:'basho',t:'場所・行き方'}
 ];
 var curG='all';
 var list=document.getElementById('typeList');
@@ -320,7 +320,7 @@ function ctaLines(){
 
 function build(){
   if(!cur) return '';
-  var L=[];
+  var L=[], isList=(cur.mode==='list');
   L.push('次の「型」で、リールのカット表を作ってください。');
   L.push('質問はしないでください。前置きも説明も書かず、カット表だけを出してください。');
   L.push('');
@@ -329,7 +329,8 @@ function build(){
   L.push('【型】'+cur.t+'（'+cur.d+'）');
   L.push('【この型のカット割】');
   cutRows(cur).forEach(function(r){ L.push(r[0]+' '+r[1]); });
-  L.push('※このカット割は「何を撮るか」の順番です。話す内容をここで区切る指示ではありません。');
+  L.push(isList?'※このカット割は「何を、どの順に出すか」の順番です。件数が5件以上あるときは、2カットずつ割り当てて10カットに収めます。'
+               :'※このカット割は「何を撮るか」の順番です。話す内容をここで区切る指示ではありません。');
   L.push('');
   function val(id){ var e=document.getElementById('f_'+id); var v=e?(e.value||'').trim():''; return v||'【要確認】'; }
   L.push('【私の情報】');
@@ -365,9 +366,19 @@ function build(){
   L.push('　 ・その人が思い込んでいて、事実とちがうこと');
   L.push('　 ・その人が「これは自分の話だ」と感じる言葉づかい');
   L.push('D その1人が最後まで見たあと、何をすれば動くかを1つ決める（調べる／保存する／その足で行く／連絡する）。');
+  if(isList){
+    L.push('E その1人にとって、いちばん役に立つ順に並べる（近い日付から／行きやすい場所から）。');
+  } else {
   L.push('E A〜Dをもとに、20秒ぶんの話の流れを1本の線で決める。');
   L.push('　 「つかみ → まだ言わずに引っぱる → 中身を見せる → なるほどと思わせる → 行き先」。');
   L.push('　 となりのカットどうしが「その理由は」「その結果」「でも」「しかも」でつながる順番にする。');
+  }
+  if(isList){
+    L.push('F 私が書いた項目を、日付（または時間）の早い順に並べ直す。足りない項目を勝手に作らない。');
+    L.push('G 1件につき1カット。1枚のテロップの中に「日付・時間／名前／場所／数」を同じ順番で積む。');
+    L.push('　 どのカットも、同じ項目を同じ並び順で書く。件によって順番を変えない。');
+    L.push('※A〜Gの答え、見出し、考えた理由は出力に書かない。出すのはカット表だけ。');
+  } else {
   L.push('F 20秒ぶんの話し言葉を、頭からお尻まで1つづきの話として組み立てる。全部で130〜150文字。');
   L.push('　 途中で話題を変えず、最初から最後まで1つの話として続ける。');
   L.push('　 全部を1文につなげない。3〜5つの文に分けて、1つずつ「。」で言い切る。');
@@ -383,14 +394,21 @@ function build(){
   L.push('　 テロップの中に「。」は書かない。文の切れ目は、次のカットで新しい文が始まる形で表す。');
   L.push('　 言い換えない、要約しない、足さない。');
   L.push('※A〜Gの答え、見出し、考えた理由、Fの話そのものは出力に書かない。出すのはカット表だけ。');
+  }
   L.push('');
   ctaLines().forEach(function(x){ L.push(x); });
   L.push('');
   L.push('【出してほしいもの】');
   L.push('カット表だけです。10行。それ以外は何も書きません。');
   L.push('1行につき「カット番号／秒数／何をどう撮るか／テロップ」の4つ。');
+  if(isList){
+    L.push('テロップは1件ぶんの情報をまとめて書く。1枚の中を「／」で区切って、何行になってもよい。');
+    L.push('カット1は表紙。地域名・テーマ・「〇月最新版」と、いつ時点の情報かを入れる。');
+    L.push('映像は全部のカットで同じもの1本を流しっぱなしでよい（2カット目以降は「同じ映像のまま」と書く）。');
+  } else {
   L.push('テロップは1カットに1枚。おおむね14文字、最大18文字。');
   L.push('カット10だけは、名前と最後の呼びかけの両方を入れるので、長くなってよい（最大30文字）。');
+  }
   L.push('');
   L.push('【出してはいけないもの】');
   L.push('次のものは、1つも書かないでください。');
@@ -403,6 +421,18 @@ function build(){
   L.push('');
   L.push('【守ること】');
   L.push('・カットはちょうど10個。増やさない、減らさない。');
+  if(isList){
+    L.push('・全部のカットで、項目の並び順をそろえる。件によって順番を変えない。');
+    L.push('・日付、時間、場所、数は、私が書いたもの（なければ参考ページに書いてあるもの）だけを使う。作らない。');
+    L.push('・件数が足りないときは、薄い情報で埋めずに「【要確認】〇件目」と書く。');
+    L.push('・表紙に「※情報は〇月〇日時点」「※変更になる場合あり」の注意書きを入れる。');
+    L.push('　 いつ時点かが分からないときは【要確認：いつ時点の情報か】と書く。');
+    L.push('・名前、地名、施設名は、私が書いた表記（なければ参考ページの表記）をそのまま使う。略さない。');
+    L.push('・カット10のテロップには、【最後の動線】の呼びかけを入れる。');
+    L.push('・【要確認】と書いた欄は勝手に埋めず、そのまま残す。質問はしない。');
+    L.push('・説明や前置きは書かず、カット表だけを出す。');
+    return L.join('\n');
+  }
   L.push('・テロップは1カットに1枚。10枚を上から続けて読むと、Fで組み立てた話そのものになる。');
   L.push('・カットごとに話を飛ばさない。次のカットは、前のカットで言ったことの続き（その理由／その結果／でも／しかも／それで）になっていること。');
   L.push('・1枚まるごとが「こんな感じ」「実は」「かなり面白い」だけ、というカットは作らない。');
